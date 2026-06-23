@@ -7,4 +7,8 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
+
+  optimizeDeps: {
+    exclude: ["pdfjs-dist"],
+  },
 });

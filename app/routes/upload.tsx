@@ -34,10 +34,11 @@ const Upload = () => {
 
         setStatusText('converting to image...');
         const imageFile = await convertPdfToImage(file);
-        if (!imageFile) return setStatusText('Error: Failed to convert PDF to image');
+        if (!imageFile.file) return setStatusText('Error: Failed to convert PDF to image');
+        console.log(imageFile);
 
         setStatusText('uploading image...');
-        const uploadedImage = await fs.upload([file]);
+        const uploadedImage = await fs.upload([imageFile.file]);
         if (!uploadedImage) return setStatusText('Error: Failed to uploaded image');
 
         setStatusText('preparing Data...');
@@ -69,6 +70,7 @@ const Upload = () => {
         await kv.set(`resume:${uuid}`,JSON.stringify(data));
         setStatusText('Analyse complete, redirecting...');
         console.log(data);
+        navigate(`/resume/${uuid}`);
     }
 
     const handleSubmit = (e:FormEvent<HTMLFormElement>) => {
